@@ -1,0 +1,76 @@
+{
+    "name": "webinertia/webinertia-db",
+    "description": "Concrete Implementations of Laminas Db",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "laminas",
+        "webinertia",
+        "laminas-db"
+    ],
+    "homepage": "https://github.com/webinertia/webinertia-db/discussions",
+    "support": {
+        "wiki": "https://github.com/webinertia/webinertia-db/wiki",
+        "issues": "https://github.com/webinertia/webinertia-db/issues",
+        "forum": "https://github.com/webinertia/webinertia-db/discussions"
+    },
+    "authors": [
+        {
+            "name": "Joey Smith",
+            "email": "jsmith@webinertia.net",
+            "homepage": "https://webinertia.net/"
+        }
+    ],
+    "suggest": {
+    },
+    "require": {
+        "php": "~8.1.0 || ~8.2.0",
+        "laminas/laminas-db": "^2.18.0",
+        "laminas/laminas-component-installer": "^3.2"
+    },
+    "require-dev": {
+        "laminas/laminas-coding-standard": "^2.5.0",
+        "phpunit/phpunit": "10.2.3",
+        "psalm/plugin-phpunit": "^0.18.4",
+        "phpstan/phpstan": "1.10.22",
+        "laminas/laminas-test": "^4.8",
+        "phpstan/extension-installer": "^1.2",
+        "slam/phpstan-laminas-framework": "^1.4"
+    },
+    "laminas": {
+        "module": "Webinertia\\Db"
+    },
+    "autoload": {
+        "psr-4": {
+            "Webinertia\\Db\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "WebinertiaTest\\DbTest\\": "test/"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@static-analysis",
+            "@test"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "static-analysis": "psalm --shepherd --stats",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
+        "phpstan": "php vendor/bin/phpstan analyse --xdebug"
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "8.0.99"
+        },
+        "allow-plugins": {
+            "laminas/laminas-component-installer": true,
+            "composer/package-versions-deprecated": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}
