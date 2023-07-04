@@ -36,8 +36,10 @@
         "phpstan/extension-installer": "^1.2",
         "slam/phpstan-laminas-framework": "^1.4"
     },
-    "laminas": {
-        "module": "Webinertia\\Db"
+    "extra": {
+        "laminas": {
+            "module": "Webinertia\\Db"
+        }
     },
     "autoload": {
         "psr-4": {
