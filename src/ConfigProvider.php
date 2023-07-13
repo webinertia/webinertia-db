@@ -8,10 +8,6 @@ final class ConfigProvider
 {
     public function getDependencyConfig(): array
     {
-        return [
-            'factories' => [
-
-            ],
-        ];
+        return [];
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Webinertia\Db\TableGateway;
+namespace Webinertia\Db;
 
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\ResultSet\ResultSet;

@@ -26,17 +26,20 @@ abstract class AbstractModel extends ArrayObject
     /** @var Where $where*/
     protected $where;
 
-    public function __construct(array $data = [], protected array $config = [])
+    public function __construct(?TableGateway $gateway = null, array $data = [], protected array $config = [])
     {
         parent::__construct($data, ArrayObject::ARRAY_AS_PROPS);
-        $this->config = $config;
-        $this->select = new Select();
-        $this->where  = new Where();
+        if ($gateway !== null) {
+            $this->gateway = $gateway;
+        }
+        $this->config  = $config;
+        $this->select  = new Select();
+        $this->where   = new Where();
     }
 
     public function getTimeStamp(bool $useConfigFormat = true): int|string
     {
-        $format   = $this->config['server']['db_time_format'] ?? DateTimeImmutable::RFC3339;
+        $format   = $this->config['db']['db_time_format'] ?? DateTimeImmutable::RFC3339;
         $dateTime = new DateTimeImmutable('now', new DateTimeZone($this->config['server']['time_zone']));
         return $this->timeStamp = $dateTime->format($format);
     }
