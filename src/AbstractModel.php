@@ -7,6 +7,7 @@ namespace Webinertia\Db;
 use Laminas\Db\Sql\Select;
 use Laminas\Db\Sql\Where;
 use Laminas\Db\TableGateway\TableGatewayInterface;
+use Laminas\Filter\FilterPluginManager;
 use Laminas\Stdlib\ArrayObject;
 
 use DateTimeImmutable;
@@ -14,9 +15,6 @@ use DateTimeZone;
 
 abstract class AbstractModel extends ArrayObject
 {
-    /** @var InputFilter $inputFilter */
-    protected $inputFilter;
-    protected $inputFilterClass = InputFilter::class;
     /** @var TableGatewayInterface $gateway */
     protected $gateway;
     /** @var int|string $timeStamp */
@@ -25,16 +23,24 @@ abstract class AbstractModel extends ArrayObject
     protected $select;
     /** @var Where $where*/
     protected $where;
+    /**
+     * Prevent unknown column errors
+     *
+     * @var array<string, int|string|array> $columnMap */
+    protected array $columnMap = [];
 
-    public function __construct(?TableGateway $gateway = null, array $data = [], protected array $config = [])
-    {
+    public function __construct(
+        ?TableGateway $gateway = null,
+        array $data = [],
+        protected array $config = []
+    ) {
         parent::__construct($data, ArrayObject::ARRAY_AS_PROPS);
         if ($gateway !== null) {
             $this->gateway = $gateway;
         }
-        $this->config  = $config;
-        $this->select  = new Select();
-        $this->where   = new Where();
+        $this->config = $config;
+        $this->select = new Select();
+        $this->where  = new Where();
     }
 
     public function getTimeStamp(bool $useConfigFormat = true): int|string

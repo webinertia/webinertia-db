@@ -25,6 +25,8 @@ use Laminas\Stdlib\ArrayUtils;
  * @codingStandardsIgnoreEnd
  */
 
+use function array_intersect_key;
+use function array_flip;
 use function sprintf;
 
 trait ModelTrait
@@ -46,7 +48,12 @@ trait ModelTrait
      */
     public function save($model, $where = null, ?array $joins = null): int
     {
-        $set = $model->getArrayCopy();
+        if ($this->columnMap !== []) {
+            $set = array_intersect_key($model->getArrayCopy(), array_flip($this->columnMap));
+        } else {
+            $set = $model->getArrayCopy();
+        }
+
         if (isset($model->id)) {
             $result = $this->gateway->update($set, $where, $joins);
         } else {
@@ -61,7 +68,7 @@ trait ModelTrait
         $where->equalTo($column, $value);
         $select = $this->gateway->getSql()->select();
         $select->where($where);
-        if (!empty($columns)) {
+        if ($columns !== null) {
             return $this->gateway->selectWith($select)->current();
         }
         return $this->gateway->select($where)->current();
