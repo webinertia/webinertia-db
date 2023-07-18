@@ -7,6 +7,7 @@ namespace Webinertia\Db;
 use Closure;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\Exception\RuntimeException;
+use Laminas\Db\ResultSet\HydratingResultSet;
 use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Db\ResultSet\ResultSetInterface;
 use Laminas\Db\Sql\Select;
@@ -27,6 +28,7 @@ use Laminas\Stdlib\ArrayUtils;
 
 use function array_intersect_key;
 use function array_flip;
+use function method_exists;
 use function sprintf;
 
 trait ModelTrait
@@ -75,14 +77,20 @@ trait ModelTrait
     }
 
     /** @throws RuntimeException */
-    public function fetchByColumn(string $column, mixed $value, bool $fetchResultSet = false): ResultSetInterface|self|array
-    {
-        $column    = (string) $column;
-        $resultSet = $this->gateway->select([$column => $value]);
-        if ($fetchResultSet) {
-            return $resultSet;
+    public function fetchByColumn(
+        string $column,
+        mixed $value
+    ): ResultSetInterface|null {
+        $column = (string) $column;
+        $where = new Where();
+        if (! is_array($value)) {
+            $where->equalTo($column, $value);
+        } else {
+            $where->in($column, $value);
         }
-        return $resultSet->current();
+        /** @var HydratingResultSet|ResultSet $resultSet */
+        $resultSet = $this->gateway->select($where);
+        return $resultSet;
     }
 
     /**
