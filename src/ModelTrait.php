@@ -28,8 +28,6 @@ use Laminas\Stdlib\ArrayUtils;
 
 use function array_intersect_key;
 use function array_flip;
-use function method_exists;
-use function sprintf;
 
 trait ModelTrait
 {
