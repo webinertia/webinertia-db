@@ -28,7 +28,7 @@
         "laminas/laminas-component-installer": "^3.2"
     },
     "require-dev": {
-        "laminas/laminas-coding-standard": "^2.5",
+        "laminas/laminas-coding-standard": "^3.0",
         "phpunit/phpunit": "^10.2",
         "psalm/plugin-phpunit": "^0.18.4",
         "phpstan/phpstan": "^1.10",
